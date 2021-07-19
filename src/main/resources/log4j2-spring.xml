@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info"
+	name="company-service-kafka-logs"
+	packages="com.stockmarket.microservices">
+
+	<Properties>
+		<Property name="FILE_PATH">C:/stock-market-logs/stock-service</Property>
+		<Property name="APP_NAME">stock-service</Property>
+		<Property name="TOPIC">stock-service-topic</Property>
+		<Property name="LOG_PATTERN">%d{yyyy-MMM-dd HH:mm:ss.SSS} [%t] %-5level [${TOPIC}] %-55c{4} %F@%M:%-10L - %msg%n</Property>
+	</Properties>
+
+	<Appenders>
+		<Kafka name="Kafka" topic="${TOPIC}">
+			<PatternLayout pattern="${LOG_PATTERN}" />
+			<Property name="bootstrap.servers">localhost:9092</Property>
+		</Kafka>
+		<Async name="Async">
+			<AppenderRef ref="Kafka" />
+		</Async>
+
+		<Console name="stdout" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="${LOG_PATTERN}" />
+		</Console>
+
+		<File name="file" fileName="${FILE_PATH}/${APP_NAME}.log">
+			<PatternLayout
+				pattern="${LOG_PATTERN}" />
+		</File>
+
+		<RollingFile name="rollingFile"
+			fileName="${FILE_PATH}/${APP_NAME}-bkp.log"
+			filePattern="${FILE_PATH}/archived/${APP_NAME}-%d{yyyy-MM-dd}.%i.log.gz">
+			<PatternLayout
+				pattern="${LOG_PATTERN}" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="5 MB" />
+			</Policies>
+		</RollingFile>
+	</Appenders>
+	<Loggers>
+		<Root level="INFO">
+			<!-- <AppenderRef ref="Kafka" /> -->
+			<AppenderRef ref="stdout" />
+			<!-- <AppenderRef ref="file" />
+			<AppenderRef ref="rollingFile" /> -->
+		</Root>
+		<Logger name="org.apache.kafka" level="ERROR" />
+	</Loggers>
+</Configuration>

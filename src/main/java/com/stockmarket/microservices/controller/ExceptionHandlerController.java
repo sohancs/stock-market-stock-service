@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.netflix.client.ClientException;
 import com.stockmarket.microservices.exception.CompanyNotFoundException;
 import com.stockmarket.microservices.exception.StockNotFoundException;
 import com.stockmarket.microservices.model.ErrorDetails;
@@ -77,4 +78,13 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 	 * FeignException.class, null); return new
 	 * ResponseEntity<ErrorDetails>(errorDetails, status); }
 	 */
+	
+	@ExceptionHandler(ClientException.class)
+	public ResponseEntity<ErrorDetails> handleClientException(ClientException ex) {
+		LOGGER.error("ClientException occurred in Stock Service ", ex);
+
+		ErrorDetails errorDetails = new ErrorDetails(HttpStatus.SERVICE_UNAVAILABLE, ex.getMessage(),
+				ClientException.class.getSimpleName(), null);
+		return new ResponseEntity<ErrorDetails>(errorDetails, HttpStatus.SERVICE_UNAVAILABLE);
+	}
 }
