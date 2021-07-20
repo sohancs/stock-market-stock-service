@@ -4,6 +4,7 @@
 	packages="com.stockmarket.microservices">
 
 	<Properties>
+		<Property name="KAFKA_SERVER">localhost:9092</Property>
 		<Property name="FILE_PATH">C:/stock-market-logs/stock-service</Property>
 		<Property name="APP_NAME">stock-service</Property>
 		<Property name="TOPIC">stock-service-topic</Property>
@@ -13,7 +14,7 @@
 	<Appenders>
 		<Kafka name="Kafka" topic="${TOPIC}">
 			<PatternLayout pattern="${LOG_PATTERN}" />
-			<Property name="bootstrap.servers">localhost:9092</Property>
+			<Property name="bootstrap.servers" value="${KAFKA_SERVER}"></Property>
 		</Kafka>
 		<Async name="Async">
 			<AppenderRef ref="Kafka" />
