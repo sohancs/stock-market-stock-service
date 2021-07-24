@@ -1,4 +1,4 @@
 FROM openjdk:8
-ADD target/stock-service-0.0.1-SNAPSHOT.jar stock-service-0.0.1-SNAPSHOT.jar
+ADD target/stock-market-stock-service-1.0.0.jar stock-market-stock-service-1.0.0.jar
 EXPOSE 9000
-ENTRYPOINT ["java","-jar","stock-service-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java","-jar","stock-market-stock-service-1.0.0.jar"]
