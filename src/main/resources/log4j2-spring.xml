@@ -4,7 +4,7 @@
 	packages="com.stockmarket.microservices">
 
 	<Properties>
-		<Property name="KAFKA_SERVER">localhost:9092</Property>
+		<Property name="KAFKA_SERVER">192.168.99.100:9092</Property>
 		<Property name="FILE_PATH">C:/stock-market-logs/stock-service</Property>
 		<Property name="APP_NAME">stock-service</Property>
 		<Property name="TOPIC">stock-service-topic</Property>
